@@ -1,0 +1,18 @@
+{
+  "branch": "main",
+  "depends_recipe": "",
+  "description_control": "systemplugins-3gmodemmanager",
+  "description_recipe": "",
+  "history_source_dir": "3GModemManager",
+  "internal_package_name": "enigma2-plugin-systemplugins-3gmodemmanager",
+  "module_dir_name": "3GModemManager",
+  "output_subdir": "3GModemManager",
+  "package_name": "enigma2-plugin-systemplugins-3gmodemmanager",
+  "plugin_src_rel": "3GModemManager",
+  "python_package": "3GModemManager",
+  "rdepends_recipe": "ppp usb-modeswitch usb-modeswitch-data wvdial wvstreams libwvutils4.6 libwvstreams-extras libuniconf4.6 kernel-module-ppp-async kernel-module-ppp-deflate kernel-module-ppp-synctty kernel-module-ppp-generic kernel-module-slhc kernel-module-usbserial kernel-module-cdc-acm kernel-module-ppp-mppe kernel-module-pppoe kernel-module-pppox kernel-module-option kernel-module-bsd-comp usbutils",
+  "replaces": "",
+  "repo_name": "3GModemManager",
+  "rrecommends": "",
+  "rreplaces": ""
+}
