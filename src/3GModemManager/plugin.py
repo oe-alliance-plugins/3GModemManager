@@ -653,7 +653,7 @@ class ModemManager(Screen):
 				self["autostart_start"].hide()
 
 	def keyAutoConnect(self):
-		## AUTOSTART
+		# AUTOSTART
 		if isConnected():
 			if not config.plugins.gmodemmanager.autostart.value:
 				config.plugins.gmodemmanager.autostart.setValue(True)
