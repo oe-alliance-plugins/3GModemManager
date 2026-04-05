@@ -55,11 +55,11 @@ config.plugins.gmodemmanager.phone = ConfigText(default="*99#")
 
 def printDebug(msg):
 	if DEBUGMODE:
-		print("[3GModemManagerDebug] %s" % msg)
+		print(f"[3GModemManagerDebug] {msg}")
 
 
 def printInfo(msg):
-	print("[3GModemManager] %s" % msg)
+	print(f"[3GModemManager] {msg}")
 
 
 def isConnected():
@@ -76,7 +76,7 @@ class DeviceEventListener:
 			self.notifier = eSocketNotifier(self.sock.fileno(), POLLIN | POLLPRI)
 			self.notifier.callback.append(self.cbEventHandler)
 		except Exception as err:
-			printInfo("Exception in module '__init__' %s" % err)
+			printInfo(f"Exception in module '__init__' {err}")
 			self.sock.close()
 
 	def cbEventHandler(self, sockfd):
@@ -86,7 +86,7 @@ class DeviceEventListener:
 				try:
 					x(recv)
 				except Exception as err:
-					printInfo("Exception in module 'cbEventHandler': %s" % err)
+					printInfo(f"Exception in module 'cbEventHandler': {err}")
 					self.notifyCallbackFunctionList.remove(x)
 
 	def addCallback(self, func):
@@ -102,7 +102,7 @@ class DeviceEventListener:
 			self.notifier.callback.remove(self.cbEventHandler)
 			self.sock.close()
 		except Exception as err:
-			printInfo("Exception in module 'close': %s" % err)
+			printInfo(f"Exception in module 'close': {err}")
 
 
 class TaskManager:
@@ -114,14 +114,14 @@ class TaskManager:
 		self.cbSetStatusCB = None
 
 	def append(self, command, cbDataFunc, cbCloseFunc):
-		self.taskList.append(["%s" % command, cbDataFunc, cbCloseFunc])
+		self.taskList.append([f"{command}", cbDataFunc, cbCloseFunc])
 
 	def dump(self):
 		printDebug("############### TASK ###############")
-		printDebug("Current Task Index : %s" % self.taskIdx)
-		printDebug("Current Task Instance : %s" % self.gTaskInstance)
-		printDebug("Occur Error : %s" % self.occurError)
-		printDebug("Task List:\n%s" % self.taskList)
+		printDebug(f"Current Task Index : {self.taskIdx}")
+		printDebug(f"Current Task Instance : {self.gTaskInstance}")
+		printDebug(f"Occur Error : {self.occurError}")
+		printDebug(f"Task List:\n{self.taskList}")
 		printDebug("####################################")
 
 	def error(self):
@@ -159,7 +159,7 @@ class TaskManager:
 			self.gTaskInstance.appClosed.append(cbCloseFunc)
 		if self.cbSetStatusCB is not None:
 			self.cbSetStatusCB(self.taskIdx)
-		printInfo("prepared command :%s" % command)
+		printInfo(f"prepared command :{command}")
 		sleep(1)  # give modem more time, maybe not needed?
 		self.gTaskInstance.execute(command)
 		self.taskIdx += 1
@@ -417,19 +417,19 @@ class ModemManual(Screen):
 		selectedIndex = self["menulist"].getSelectionIndex()
 
 		def makeItem(region, carrier, apn, user, password, pin, phone):
-			printDebug("%s, %s, %s, %s, %s, %s, %s" % (region, carrier, apn, user, password, pin, phone))
+			printDebug(f"{region}, {carrier}, {apn}, {user}, {password}, {pin}, {phone}")
 			tempStr = "    <apn"
-			tempStr += ' region="%s"' % region
-			tempStr += ' carrier="%s"' % carrier
-			tempStr += ' apn="%s"' % apn
+			tempStr += f' region="{region}"'
+			tempStr += f' carrier="{carrier}"'
+			tempStr += f' apn="{apn}"'
 			if user:
-				tempStr += ' user="%s"' % user
+				tempStr += f' user="{user}"'
 			if password:
-				tempStr += ' password="%s"' % password
+				tempStr += f' password="{password}"'
 			if pin:
-				tempStr += ' pin="%s"' % pin
+				tempStr += f' pin="{pin}"'
 			if phone:
-				tempStr += ' phone="%s"' % phone
+				tempStr += f' phone="{phone}"'
 			tempStr += ' />\n'
 			return tempStr
 		tempIndex = 0
@@ -486,7 +486,7 @@ class ModemManual(Screen):
 		self.updateAPNInfo()
 
 	def updateAPNInfo(self):
-		info = "REGION : %s\nAPN : %s\nUSER : %s\nPASSWD : %s\nPIN : %s\nPHONE : %s\n" % (self.region, self.apn, self.uid, self.pwd, self.pin, self.phone)
+		info = f"REGION : {self.region}\nAPN : {self.apn}\nUSER : {self.uid}\nPASSWD : {self.pwd}\nPIN : {self.pin}\nPHONE : {self.phone}\n"
 		self["apnInfo"].setText(info)
 
 	def setListOnView(self):
@@ -609,7 +609,7 @@ class ModemManager(Screen):
 		if self["key_green"].getText() == "Disconnect":
 			system("killall -9 wget")
 			cmd = 'wget -q -O - http://checkip.dyndns.org | grep "html" | cut -d" " -f6  | cut -d"<" -f1'
-			self["myip"].setText("IP : %s" % popen(cmd).read().strip())
+			self["myip"].setText(f"IP : {popen(cmd).read().strip()}")
 		else:
 			self["myip"].setText("IP : 0.0.0.0")
 
@@ -683,7 +683,7 @@ class ModemManager(Screen):
 	def keyNumber(self, num=None):
 		global DEBUGMODE
 		DEBUGMODE = not DEBUGMODE
-		printInfo("changed log mode, debug %s" % (DEBUGMODE and "on" or "off"))
+		printInfo(f"changed log mode, debug {'on' if DEBUGMODE else 'off'}")
 
 	def keyExit(self):
 		if self.isAttemptConnect():
@@ -695,9 +695,9 @@ class ModemManager(Screen):
 
 	def cbForciblyExit(self, result):
 		if result:
-			system("%s -s 1" % COMMANDBIN)
-			system("%s -s 2" % COMMANDBIN)
-			system("%s -s 6" % COMMANDBIN)
+			system(f"{COMMANDBIN} -s 1")
+			system(f"{COMMANDBIN} -s 2")
+			system(f"{COMMANDBIN} -s 6")
 			self.udevListener.close()
 			self.close()
 
@@ -753,7 +753,7 @@ class ModemManager(Screen):
 		self["statusText"].setText(_("Accessing modem. Please wait..."))
 		self["statusText"].startBlinking()
 		self["statusText"].show()
-		devFile = "/usr/share/usb_modeswitch/%s:%s" % (self.Vendor, self.ProdID)
+		devFile = f"/usr/share/usb_modeswitch/{self.Vendor}:{self.ProdID}"
 		if not exists(devFile):
 			self["statusText"].stopBlinking()
 			self["statusText"].hide()
@@ -763,9 +763,9 @@ class ModemManager(Screen):
 			self.session.open(MessageBox, message, MessageBox.TYPE_INFO, 5)
 			return
 		if self["key_green"].getText() == "Disconnect":
-			cmd = "%s 0" % COMMANDBIN
+			cmd = f"{COMMANDBIN} -s 0"
 			self.taskManager.append(cmd, self.cbPrintAvail, self.cbPrintClose)
-			cmd = "%s 1" % COMMANDBIN
+			cmd = f"{COMMANDBIN} -s 1"
 			self.taskManager.append(cmd, self.cbPrintAvail, self.cbUnloadClose)
 			self.taskManager.setStatusCB(self.setDisconnectStatus)
 			self["myip"].setText("IP : 0.0.0.0")
@@ -776,9 +776,9 @@ class ModemManager(Screen):
 				iNetwork.activateInterface(x)
 			iNetwork.restartNetwork()
 		else:
-			cmd = "%s 2 vendor=0x%s product=0x%s" % (COMMANDBIN, self.Vendor, self.ProdID)
+			cmd = f"{COMMANDBIN} 2 vendor=0x{self.Vendor} product=0x{self.ProdID}"
 			self.taskManager.append(cmd, self.cbStep1PrintAvail, self.cbPrintClose)
-			cmd = "%s 3 %s %s" % (COMMANDBIN, self.Vendor, self.ProdID)
+			cmd = f"{COMMANDBIN} 3 {self.Vendor} {self.ProdID}"
 			# do not save new vendor id and product id changed by usb-switchmode, use only 1st ones ( when no /dev/ttyUSB0 ) - it appears ONLY when it is switched to GSM MODE
 			if not fileExists("/dev/ttyUSB0"):
 				config.plugins.gmodemmanager.vendorid.setValue(self.Vendor)
@@ -787,16 +787,16 @@ class ModemManager(Screen):
 				config.plugins.gmodemmanager.productid.save()
 				printDebug("'Current Connection vendor' and 'product ids' have been saved for future Auto-Connect mode")
 			self.taskManager.append(cmd, self.cbPrintAvail, self.cbPrintClose)
-			cmd = "%s 4" % COMMANDBIN
+			cmd = f"{COMMANDBIN} 4"
 			self.taskManager.append(cmd, self.cbStep3PrintAvail, self.cbMakeWvDialClose)
-			cmd = "%s 5" % COMMANDBIN
+			cmd = f"{COMMANDBIN} 5"
 			self.taskManager.append(cmd, self.cbRunWvDialAvail, self.cbPrintClose)
 			self.taskManager.setStatusCB(self.setConnectStatus)
 		self.taskManager.next()
 
 	def findDeviceInfos(self, info, key):
 		if "=" in info:
-			found = search(r"%s%s" % (key, "=([A-Za-z0-9]+)"), info)
+			found = search(rf"{key}=([A-Za-z0-9]+)", info)
 			return found.group(1) if found else ""
 		return info
 
@@ -824,7 +824,7 @@ class ModemManager(Screen):
 			self.forceStop = True
 
 	def cbPrintAvail(self, data):
-		printInfo("cbPrintAvai: %s" % data.decode("utf-8", errors="ignore").strip())
+		printInfo(f"cbPrintAvai: {data.decode('utf-8', errors='ignore').strip()}")
 
 	def cbPrintClose(self, ret):
 		if self.forceStop:
@@ -841,7 +841,7 @@ class ModemManager(Screen):
 	def cbRunWvDialAvail(self, data):
 		data = data.decode("utf-8", errors="ignore").strip()
 		if data:
-			printInfo("cbRunWvDialAvail: %s" % data)
+			printInfo(f"cbRunWvDialAvail: {data}")
 		self.data = data
 		datalower = data.lower()
 		if "waiting for" in datalower or "bad init" in datalower or "invalid dial" in datalower or "no carrier" in datalower:
@@ -864,16 +864,16 @@ class ModemManager(Screen):
 		if exists(WVDIALFILE):
 			for x in open(WVDIALFILE).read().splitlines():
 				if x.lower().startswith("modem"):
-					printInfo("Modem: '%s'" % x)
+					printInfo(f"Modem: '{x}'")
 					info["Modem"] = x[7:].strip()
 				elif x.lower().startswith("init2"):
-					printInfo("Init2: '%s'" % x)
+					printInfo(f"Init2: '{x}'")
 					info["Init"] = x[7:].strip()
 				elif x.lower().startswith("baud"):
-					printInfo("Baud: '%s'" % x)
+					printInfo(f"Baud: '{x}'")
 					info["Baud"] = x[6:].strip()
 		else:
-			printInfo("WARNING in module 'cbMakeWvDialClose': File not found : %s" % WVDIALFILE)
+			printInfo(f"WARNING in module 'cbMakeWvDialClose': File not found : {WVDIALFILE}")
 		if self.apn:
 			info["apn"] = self.apn
 		if self.uid:
@@ -894,16 +894,16 @@ class ModemManager(Screen):
 		self["statusText"].stopBlinking()
 		self["statusText"].hide()
 		message = _("Occur error during connection...\n\n%s\n\nPlease check your settings!")
-		printInfo("%s\n" % (message % self.data))
+		printInfo(f"{message % self.data}\n")
 		self.session.open(MessageBox, message % self.data, MessageBox.TYPE_INFO)
 
 	def writeConf(self, data, oper=">>"):
 		if oper == ">":
 			if exists(WVDIALFILE):
-				system("mv %s %s.bak" % (WVDIALFILE, WVDIALFILE))
+				system(f"mv {WVDIALFILE} {WVDIALFILE}.bak")
 			else:
-				printInfo("WARNING in module 'writeConf': File not found : %s" % WVDIALFILE)
-		system("echo '%s' %s %s" % (data, oper, WVDIALFILE))
+				printInfo(f"WARNING in module 'writeConf': File not found : {WVDIALFILE}")
+		system(f"echo '{data}' {oper} {WVDIALFILE}")
 
 	def makeWvDialConf(self, params):
 		baud = params.get("Baud", _("{unknown}"))
@@ -920,35 +920,35 @@ class ModemManager(Screen):
 		self.writeConf("Init1 = ATZ+CFUN=1")
 		self.writeConf("")
 		self.writeConf("[Dialer Defaults]")
-		self.writeConf("Modem = %s" % modem)
-		self.writeConf("Baud = %s" % baud)
+		self.writeConf(f"Modem = {modem}")
+		self.writeConf(f"Baud = {baud}")
 		self.writeConf("Modem = /dev/ttyUSB0")
 		self.writeConf("Baud = 57600")
-		self.writeConf("Init%d = ATE1" % idxInit)
+		self.writeConf(f"Init{idxInit} = ATE1")
 		idxInit += 1
 		if pin:
-			self.writeConf("Init%d = AT+CPIN=%s" % (idxInit, pin))
+			self.writeConf(f"Init{idxInit} = AT+CPIN={pin}")
 			idxInit += 1
-		self.writeConf("Init%d = %s" % (idxInit, init))
+		self.writeConf(f"Init{idxInit} = {init}")
 		idxInit += 1
 		if not apn and not uid and not pwd and not pin:
-			self.writeConf("Init%d = AT&F" % idxInit)
+			self.writeConf(f"Init{idxInit} = AT&F")
 			idxInit += 1
 		if apn:
-			self.writeConf('Init%d = AT+CGDCONT=1,"IP","%s"' % (idxInit, apn))
+			self.writeConf(f'Init{idxInit} = AT+CGDCONT=1,"IP","{apn}"')
 			idxInit += 1
-		self.writeConf("Init%d = AT+CFUN=1" % idxInit)
+		self.writeConf(f"Init{idxInit} = AT+CFUN=1")
 		self.writeConf("Dial Command = ATD")
-		self.writeConf("Username = %s" % uid)
-		self.writeConf("Password = %s" % pwd)
-		self.writeConf("Phone = %s" % phone)  # standard: *99#
+		self.writeConf(f"Username = {uid}")
+		self.writeConf(f"Password = {pwd}")
+		self.writeConf(f"Phone = {phone}")  # standard: *99#
 		self.writeConf("Modem Type = Analog Modem")
 		self.writeConf("Stupid mode = yes")
 		self.writeConf("ISDN = 0")
 		self.writeConf("Carrier Check = 0")
 		self.writeConf("Abort on No Dialtone = 0")
 		self.writeConf("Auto DNS = 0")
-		message = open(WVDIALFILE).read() if exists(WVDIALFILE) else "WARNING in module 'makeWvDialConf': File not found : '%s'" % WVDIALFILE
+		message = open(WVDIALFILE).read() if exists(WVDIALFILE) else f"WARNING in module 'makeWvDialConf': File not found : '{WVDIALFILE}'"
 		printDebug(message)
 
 	def updateUSBInfo(self):
@@ -958,8 +958,8 @@ class ModemManager(Screen):
 			self.ProdID = self.findDeviceInfos(x.get("ProdID", ""), "ProdID")
 			if not self.ProdID:
 				self.ProdID = self.findDeviceInfos(x.get("Vendor", ""), "ProdID")
-			printInfo("Found Vendor '%s', ProdID '%s'" % (self.Vendor, self.ProdID))
-			info = "Vendor : %s\nProdID : %s\nAPN : %s\nUser : %s\nPassword : %s\nPin : %s\nPhone : %s" % (self.Vendor, self.ProdID, self.apn, self.uid, self.pwd, self.pin, self.phone)
+			printInfo(f"Found Vendor '{self.Vendor}', ProdID '{self.ProdID}'")
+			info = f"Vendor : {self.Vendor}\nProdID : {self.ProdID}\nAPN : {self.apn}\nUser : {self.uid}\nPassword : {self.pwd}\nPin : {self.pin}\nPhone : {self.phone}"
 			self["usbinfo"].setText(info)
 
 	def setListOnView(self):
@@ -979,7 +979,7 @@ class ModemManager(Screen):
 		tmp_device = {}
 		for x in usb_devices.splitlines():
 			if x is None or len(x) == 0:
-				printDebug("TMP DEVICE : [%s]" % tmp_device)
+				printDebug(f"TMP DEVICE : [{tmp_device}]")
 				if len(tmp_device):
 					parsed_usb_list.append(tmp_device)
 				tmp_device = {}
@@ -987,9 +987,9 @@ class ModemManager(Screen):
 			try:
 				if x[0] in ("P", "S", "I", "T"):
 					tmp = x[2:].strip()
-					printDebug("TMP : [%s]" % tmp)
+					printDebug(f"TMP : [{tmp}]")
 					if tmp.lower().startswith("bus"):
-						printDebug("TMP SPLIT for BUS : %s" % tmp.split())
+						printDebug(f"TMP SPLIT for BUS : {tmp.split()}")
 						for xx in tmp.split():
 							if xx.lower().startswith("bus"):
 								tmp_device["Bus"] = xx[4:]
@@ -1001,7 +1001,7 @@ class ModemManager(Screen):
 					elif tmp.lower().startswith("serialnumber"):
 						tmp_device["SerialNumber"] = tmp[13:]
 					elif tmp.lower().startswith("vendor"):
-						printDebug("TMP SPLIT for BUS : %s" % tmp.split())
+						printDebug(f"TMP SPLIT for BUS : {tmp.split()}")
 						for xx in tmp.split():
 							if xx.lower().startswith("vendor"):
 								tmp_device["Vendor"] = xx[7:]
@@ -1013,20 +1013,20 @@ class ModemManager(Screen):
 						if d != "(none)":
 							tmp_device["Interface"] = d
 			except Exception as err:
-				printInfo("Exception in module 'getUSBList1' %s" % err)
+				printInfo(f"Exception in module 'getUSBList1' {err}")
 		if len(tmp_device):
 			parsed_usb_list.append(tmp_device)
-		printDebug("PARSED DEVICE LIST : %s" % parsed_usb_list)
+		printDebug(f"PARSED DEVICE LIST : {parsed_usb_list}")
 		rt_usb_list = []
 		for x in parsed_usb_list:
-			printDebug("Looking >> %s" % x)
+			printDebug(f"Looking >> {x}")
 			try:
 				xx = x.get("Interface")
 				if xx and xx.lower().startswith("usb"):
 					rt_usb_list.append(x)
 			except Exception as err:
-				printInfo("Exception in module 'getUSBList2' %s" % err)
-				printInfo("USB DEVICE LIST : %s" % rt_usb_list)
+				printInfo(f"Exception in module 'getUSBList2' {err}")
+				printInfo(f"USB DEVICE LIST : {rt_usb_list}")
 		if not rt_usb_list:
 			self.keyOK()
 			printInfo("USB DEVICE LIST : 'No USB-device found!'")
@@ -1038,10 +1038,10 @@ def autostart(reason, **kwargs):
 	productid = config.plugins.gmodemmanager.productid.value
 	if reason == 0:
 		if isConnected():
-			args = ("%s 0;" % COMMANDBIN) + ("%s 1" % COMMANDBIN)
+			args = (f"{COMMANDBIN} 0;") + (f"{COMMANDBIN} 1")
 			is_running = True
 		else:
-			args = ("%s 2 vendor=0x%s product=0x%s;" % (COMMANDBIN, vendorid, productid)) + ("%s 3 %s %s;sleep 8;" % (COMMANDBIN, vendorid, productid)) + ("%s 5" % COMMANDBIN)
+			args = (f"{COMMANDBIN} 2 vendor=0x{vendorid} product=0x{productid};") + (f"{COMMANDBIN} 3 {vendorid} {productid};sleep 8;") + (f"{COMMANDBIN} 5")
 			is_running = False
 		cmd = args
 		if config.plugins.gmodemmanager.autostart.value:
