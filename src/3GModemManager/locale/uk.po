@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3GModemManager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-30 19:14+0200\n"
+"POT-Creation-Date: 2026-04-08 10:15+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: litvcom\n"
 "Language-Team: \n"
@@ -16,68 +16,226 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
+#: ../plugin.py:236
 msgid " "
 msgstr " "
 
-msgid "3G / 4G Modem Manager"
-msgstr "Диспетчер 3G/4G модему"
+#: ../plugin.py:307
+#, python-format
+msgid "'%s' field is empty!!"
+msgstr ""
 
-msgid "APN :"
+#: ../plugin.py:43
+msgid "1. Drop WvDial"
+msgstr ""
+
+#: ../plugin.py:41
+msgid "1. Load a Mobile Broadband Device"
+msgstr ""
+
+#: ../plugin.py:41
+msgid "2. Set up a Mobile Broadband Device"
+msgstr ""
+
+#: ../plugin.py:43
+msgid "2. Unload a Mobile Broadband Device"
+msgstr ""
+
+#: ../plugin.py:43
+msgid "3. Done"
+msgstr ""
+
+#: ../plugin.py:42
+msgid "3. Generate a WvDial profile"
+msgstr ""
+
+#: ../plugin.py:669 ../plugin.py:672
+msgid ""
+"3G/4G Modem Manager is already in 'autoconnect on startup'.\n"
+"Would You like to disable 'autoconnect on startup'?"
+msgstr ""
+
+#: ../plugin.py:665
+msgid "3G/4G Modem Manager will connect automatically on boot"
+msgstr ""
+
+#: ../plugin.py:42
+#, fuzzy
+msgid "4. Attempt to connect"
+msgstr "Автоз'єднання"
+
+#: ../plugin.py:42
+msgid "5. Done"
+msgstr ""
+
+#: ../plugin.py:252 ../plugin.py:314
+#, fuzzy
+msgid "APN"
 msgstr "APN:"
 
+#: ../plugin.py:753
+msgid "Accessing modem. Please wait..."
+msgstr ""
+
+#: ../plugin.py:367
 msgid "Add"
 msgstr "Додати"
 
-msgid "Auto connect"
+#: ../plugin.py:735
+msgid ""
+"Another adapter connected has been found.\n"
+"A connection is attempted after disconnect all of other device.\n"
+"\n"
+"Do you want to?"
+msgstr ""
+
+#: ../plugin.py:573 ../plugin.py:584
+#, fuzzy
+msgid "Autoconnect"
 msgstr "Автоз'єднання"
 
-msgid "Auto connect:"
-msgstr "Автоз'єднання:"
+#: ../plugin.py:690
+msgid ""
+"Can't disconnect during connecting..\n"
+"Do you want to forcibly exit?"
+msgstr ""
 
+#: ../plugin.py:760
+#, python-format
+msgid ""
+"Can't found device file!\n"
+"[%s]\n"
+"\n"
+"Is this selected USB-device really a Mobile Broadband Device?"
+msgstr ""
+
+#: ../plugin.py:234 ../plugin.py:364
 msgid "Cancel"
 msgstr "Скасувати"
 
+#: ../plugin.py:369
+msgid "Config"
+msgstr ""
+
+#: ../plugin.py:237
+msgid "Config Add"
+msgstr ""
+
+#: ../plugin.py:237
+msgid "Config Edit"
+msgstr ""
+
+#: ../plugin.py:581 ../plugin.py:837
+#, fuzzy
+msgid "Connect"
+msgstr "Автоз'єднання"
+
+#: ../plugin.py:574
 msgid "Disable"
 msgstr "Відключити"
 
+#: ../plugin.py:578 ../plugin.py:856
+#, fuzzy
+msgid "Disconnect"
+msgstr "Автоз'єднання"
+
+#: ../plugin.py:731
+msgid "Do you want to disconnect?"
+msgstr ""
+
+#: ../plugin.py:366
 msgid "Edit"
 msgstr "Редагувати"
 
+#: ../plugin.py:575
 msgid "Enable"
 msgstr "Увімкнути"
 
+#: ../plugin.py:576
 msgid "Exit"
 msgstr "Вихід"
 
-msgid "IP : "
-msgstr "IP:"
+#: ../plugin.py:1068
+msgid "Management of 3G/4G USB-modems"
+msgstr ""
 
-msgid "IP : 0.0.0.0"
-msgstr "IP : 0.0.0.0"
-
+#: ../plugin.py:583
 msgid "Manual"
 msgstr "Вручну"
 
-msgid "Name :"
+#: ../plugin.py:249 ../plugin.py:312
+#, fuzzy
+msgid "Name"
 msgstr "Ім'я:"
 
+#: ../plugin.py:722
+msgid ""
+"No USB-device found!\n"
+"Please connect 3G or 4G modem to USB port!"
+msgstr ""
+
+#: ../plugin.py:365
 msgid "OK"
 msgstr "OK"
 
-msgid "PIN :"
+#: ../plugin.py:896
+#, python-format
+msgid ""
+"Occur error during connection...\n"
+"\n"
+"%s\n"
+"\n"
+"Please check your settings!"
+msgstr ""
+
+#: ../plugin.py:253
+#, fuzzy
+msgid "PIN"
 msgstr "PIN-код:"
 
-msgid "Password :"
+#: ../plugin.py:251
+#, fuzzy
+msgid "Password"
 msgstr "Пароль:"
 
-msgid "Phone :"
+#: ../plugin.py:254
+#, fuzzy
+msgid "Phone"
 msgstr "Номер телефону:"
 
-msgid "Region :"
+#: ../plugin.py:675
+msgid "Please connect before enable 'autoconnect on startup'."
+msgstr ""
+
+#: ../plugin.py:290 ../plugin.py:308
+msgid "Please input here"
+msgstr ""
+
+#: ../plugin.py:248 ../plugin.py:310
+#, fuzzy
+msgid "Region"
 msgstr "Регіон:"
 
+#: ../plugin.py:235
 msgid "Save"
 msgstr "Зберегти"
 
-msgid "User :"
+#: ../plugin.py:568
+msgid "Searching for USB-devices..."
+msgstr ""
+
+#: ../plugin.py:567
+msgid "Status"
+msgstr ""
+
+#: ../plugin.py:250
+#, fuzzy
+msgid "User"
 msgstr "Користувач:"
+
+#: ../plugin.py:50 ../plugin.py:51 ../plugin.py:52 ../plugin.py:909
+#: ../plugin.py:910 ../plugin.py:911 ../plugin.py:913 ../plugin.py:914
+#: ../plugin.py:915 ../plugin.py:916
+#, python-brace-format
+msgid "{unknown}"
+msgstr ""
